@@ -1,0 +1,42 @@
+version: '2'
+services:
+  consumer:
+    image: skalmadka/consumer:latest
+    ports:
+      - "6004:6004"
+    links:
+      - database
+    environment:
+      - NODE_ENV=production
+      - MONGO_URL=mongodb://database:27017/meteor
+      - encrypt_key=dc5d44bb-4203-4be0-883f-47b49efdf04d
+      # CONSUMER_URL, the URL applications can use to reach the consumer
+      - CONSUMER_URL=${CONSUMER_URL}
+      - DEMO_REPORTS=false
+  ui:
+    image: skalmadka/ui:latest
+    ports:
+      - "80:80"
+    links:
+      - database
+    environment:
+      - NODE_ENV=production
+      # ROOT_URL, the URL users will be accessing the UI with.
+      - ROOT_URL=${ROOT_URL}
+      # DDP_DEFAULT_CONNECTION_URL same as ROOT_URL
+      - DDP_DEFAULT_CONNECTION_URL=${ROOT_URL}
+      - MONGO_URL=mongodb://database:27017/meteor
+      - ENCRYPT_KEY=dc5d44bb-4203-4be0-883f-47b49efdf04d
+      - ADMIN_PASSWORD=admin
+  database:
+    image:  mongo:3.2
+    command: mongod --quiet --logpath=/dev/null
+    volumes:
+      - mongodb:/data/db
+    # Expose mongo port only for debugging or if you want to browse using robomongo
+    # ports:
+    #   - "27017:27017"
+volumes:
+  mongodb:
+    external:
+      name: reporting-mongo
