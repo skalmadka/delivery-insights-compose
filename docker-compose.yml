@@ -12,7 +12,8 @@ services:
       - encrypt_key=dc5d44bb-4203-4be0-883f-47b49efdf04d
       # CONSUMER_URL, the URL applications can use to reach the consumer
       - CONSUMER_URL=${CONSUMER_URL}
-      - DEMO_REPORTS=false
+      - DEMO_REPORTS=true
+      - LICENSE=${LICENSE}
   ui:
     image: skalmadka/ui:latest
     ports:
@@ -28,6 +29,7 @@ services:
       - MONGO_URL=mongodb://database:27017/meteor
       - ENCRYPT_KEY=dc5d44bb-4203-4be0-883f-47b49efdf04d
       - ADMIN_PASSWORD=admin
+      - LICENSE=${LICENSE}
   database:
     image:  mongo:3.2
     command: mongod --quiet --logpath=/dev/null
@@ -39,4 +41,4 @@ services:
 volumes:
   mongodb:
     external:
-      name: reporting-mongo
+      name: velocity-mongo
