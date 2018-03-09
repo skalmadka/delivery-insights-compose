@@ -7,13 +7,9 @@ services:
     links:
       - database
     environment:
-      - NODE_ENV=production
       - MONGO_URL=mongodb://database:27017/meteor
-      - encrypt_key=dc5d44bb-4203-4be0-883f-47b49efdf04d
-      # CONSUMER_URL, the URL applications can use to reach the consumer
-      - CONSUMER_URL=${CONSUMER_URL}
-      - DEMO_REPORTS=true
-      - LICENSE=${LICENSE}
+      - ENCRYPT_KEY=${ENCRYPT_KEY}
+      - CONSUMER_URL=http://${URL_DOMAIN}:6004
   ui:
     image: skalmadka/ui:latest
     ports:
@@ -21,15 +17,14 @@ services:
     links:
       - database
     environment:
-      - NODE_ENV=production
       # ROOT_URL, the URL users will be accessing the UI with.
-      - ROOT_URL=${ROOT_URL}
+      - ROOT_URL=http://${URL_DOMAIN}
       # DDP_DEFAULT_CONNECTION_URL same as ROOT_URL
-      - DDP_DEFAULT_CONNECTION_URL=${ROOT_URL}
+      - DDP_DEFAULT_CONNECTION_URL=http://${URL_DOMAIN}
       - MONGO_URL=mongodb://database:27017/meteor
-      - ENCRYPT_KEY=dc5d44bb-4203-4be0-883f-47b49efdf04d
+      - ENCRYPT_KEY=${ENCRYPT_KEY}
       - ADMIN_PASSWORD=admin
-      - LICENSE=${LICENSE}
+      - LICENSE_KEY=${LICENSE_KEY}
   database:
     image:  mongo:3.2
     command: mongod --quiet --logpath=/dev/null

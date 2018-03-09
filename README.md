@@ -23,6 +23,8 @@
     docker-compose version 1.8.0  #preferred
     ```
 
+4. Your UrbanCode Velocity license key. Get one for FREE from the UrbanCode Velocity registration site. <br/> http://di-kube.us-south.containers.mybluemix.net:32018/
+
 ## Prepare docker volume
 A docker volume is required for the MongoDB
 
@@ -39,22 +41,27 @@ A docker volume is required for the MongoDB
     $ wget https://raw.githubusercontent.com/skalmadka/urbancode-compose/master/velocity/docker-compose.yml
     ```
 
-2. Set the required environment variables
+2. Set the required environment variables. You can edit other parameters by making a change directly in the `docker-compose.yml` file.
 
     ```sh
-    $ export LICENSE=accept #Make sure you read LICENSE.txt and accept the terms and conditions.
-    $ export ROOT_URL=http://<hostname> #URL which users will use to access the UI, usually the hostname/ip of the machine you are on.
-    $ export CONSUMER_URL=http://<hostname>:6004 #URL which applications will use to access the consumer, usually the hostname/ip of the machine you are on.
+    $ export LICENSE_KEY=<velocity-license-key> #Your UrbanCode Velocity license key.
+    $ export URL_DOMAIN=<hostname> #This is usually the hostname of the machine this app is running on. Do NOT include http, port numbers or trailing "/", just the hostname.
+    $ export ENCRYPT_KEY=<a-unique-guid/string-for-data-encryption> #A unique id used to encrypt user names, tokens and any email addresses in mongoDB.
     ```
+
 3. Run
 
     ```sh
     $ docker-compose up -d
     ```
 
+4. Admin logs in to `http://${URL_DOMAIN}/admin` to set up UCD integrations and user authentication mechanism. After that, users can login to `http://${URL_DOMAIN}/home` to view reports.
+
+## Uninstalling the release
+
 NOTE: To Stop/Remove. (Remove if you have a new version of any of the images. Stoping or removing the container should not affect the data as long as your volume is persistent)
 
-    ```sh
-    $ docker-compose stop
-    $ docker-compose rm
-    ```
+  ```sh
+  $ docker-compose stop
+  $ docker-compose rm
+  ```
