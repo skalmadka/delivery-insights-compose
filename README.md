@@ -31,7 +31,7 @@ A docker volume is required for the MongoDB
 1. Create a docker volume with name `velocity-mongo`
 
     ```sh
-    $ docker volume create velocity-mongo
+    $ docker volume create reporting-mongo
     ```
 
 ## Running the project
